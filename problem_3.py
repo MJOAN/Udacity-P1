@@ -76,7 +76,7 @@ class HuffmanBinaryTree(object):
     
     def build_huffman_tree(self, all_sorted_nodes_dict):        
         """
-        1. build huffman by assigning a binary code to each letter using shorter codes for the more frequent letters 
+        1. build huffman assign binary code to each char w/ shorter codes for the more frequent chars 
         2. trim the Huffman Tree (remove the frequencies from the previously built tree)
 
         """
