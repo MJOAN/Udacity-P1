@@ -67,27 +67,23 @@ class HuffmanBinaryTree(object):
         """
         temp_dict = dict()
 
-        for a, b in sorted_key_values:
-            c = self.huffman_encoding(a)   # extend binary encoding
+        for a, b in sorted_key_values:   # iterate over tuple key, values 
+            c = self.huffman_encoding(a)    # get binary encodings for each key -> char  
             print('encoding_debug1: ', c)
-            temp_dict.setdefault(a, []).extend([b, c]) 
-            print('temp_dict_debug: ', temp_dict)
+            temp_dict.setdefault(a, []).extend([b, c]) # extend values and binary encoding 
+            print('temp_dict_debug: ', temp_dict) 
         return temp_dict
-
     
-    def build_huffman_tree(self, all_sorted_nodes_dict): 
-        
+    def build_huffman_tree(self, all_sorted_nodes_dict):        
         """
         1. build huffman by assigning a binary code to each letter using shorter codes for the more frequent letters 
         2. trim the Huffman Tree (remove the frequencies from the previously built tree)
 
         """
         node = self.get_root()
-        
+
         for key, value in all_sorted_nodes_dict.items():   # cite: 2
-            huffman_node = HuffmanNode(key, value)
-            
-            
+            huffman_node = HuffmanNode(key, value)    
             print('key value iterate over dict: ', key, value)
             
             if node is not None:
@@ -97,7 +93,6 @@ class HuffmanBinaryTree(object):
                     else:
                         node.set_left_child(huffman_node)
                         break
-
                 else:
                     if node.has_right_child():
                         node = node.get_right_child()
@@ -108,16 +103,12 @@ class HuffmanBinaryTree(object):
                 node = huffman_node
                 print('huffman_node_debug1: ', node)
         
-
     def huffman_encoding(self, data):    # cite: 4 
         return bin(int.from_bytes(data.encode(), 'big'))
 
     def huffman_decoding(data,tree):    # cite: 4
         n = int(data, 2)
         n.to_bytes((n.bit_length() + 7) // 8, 'big').decode()
-        
-        
-        
 
 if __name__ == "__main__":
     codes = {}
