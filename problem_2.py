@@ -38,3 +38,14 @@ def find_files(suffix, path):
 
 
 find_files('.c', '/Users/mariamjoan/Notebooks/testdir')
+
+
+# def find_files(suffix, path): 
+#    files_found = [] 
+#    recursive_file_search(suffix, path, files_found) 
+#    return files_found
+
+# import os
+# def get_immediate_subdirectories(a_dir):
+#     return [name for name in os.listdir(a_dir)
+#             if os.path.isdir(os.path.join(a_dir, name))]
