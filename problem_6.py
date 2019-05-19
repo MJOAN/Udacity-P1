@@ -40,18 +40,44 @@ class LinkedList:
             node = node.next
 
         return size
+    
+    def union(llist_1, llist_2):
+        union_set = set()
+                
+        if self.head in llist_1 is None:
+            self.head = Node()
+        else:
+            head_1 = self.head
+        
+        if self.head in llist_2 is None:
+            self.head = Node()
+        else:
+            head_2 = self.head
+        
+        while head_1 is not None:
+            head_1 = head_1.next
+            pass
+        while head_2 is not None:
+            head_2 = head_2.next
+            pass
+        
+    def intersection(llist_1, llist_2):
+        
+        intersection = LinkedList()  #  A ∩ B 
+        
+        if self.head in llist_1 is None:
+            self.head = Node()
+        else: 
+            head_1 = self.head
+        
+        if self.head in llist_2 is None:
+            self.head = Node()
+        head_2 = self.head      
 
-def union(llist_1, llist_2):
-    # Your Solution Here
-    pass
-
-def intersection(llist_1, llist_2):
-    # Your Solution Here
-    pass
-
-
+        while head_1 is not None: 
+            pass
+            
 # Test case 1
-
 linked_list_1 = LinkedList()
 linked_list_2 = LinkedList()
 
@@ -68,7 +94,6 @@ print (union(linked_list_1,linked_list_2))
 print (intersection(linked_list_1,linked_list_2))
 
 # Test case 2
-
 linked_list_3 = LinkedList()
 linked_list_4 = LinkedList()
 
@@ -81,5 +106,5 @@ for i in element_1:
 for i in element_2:
     linked_list_4.append(i)
 
-print (union(linked_list_3,linked_list_4))
-print (intersection(linked_list_3,linked_list_4))
+print(union(linked_list_3,linked_list_4))
+print(intersection(linked_list_3,linked_list_4))
