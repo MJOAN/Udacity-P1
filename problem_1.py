@@ -6,7 +6,6 @@ class DoubleNode:
         self.value = value
         self.next = None
         self.previous = None
-    
 
 class LRU_Cache:    
     def __init__(self, capacity):
@@ -38,15 +37,15 @@ class LRU_Cache:
         if key not in self.hashmap:
             return -1
         
-        print('test_map', key, self.hashmap)
+        #print('test_map', key, self.hashmap)
         
         if key in self.hashmap:
-            print('test_map_inside iteration: ', self.hashmap[key])
+            #print('test_map_inside iteration: ', self.hashmap[key])
             node = self.hashmap[key]
-            print('get method node: ', node)
+            #print('get method node: ', node)
             self._remove(node)
             self._insert(node)
-            print('get_node value: ', node.value)
+            #print('get_node', node.value)
             return node.value
         
 
@@ -61,34 +60,32 @@ class LRU_Cache:
         3. remove(node), add(node) and set that node as value to hashmap
         check hashmap length > LRU capacity
         """
-        print('test_key_value: ', key, value)
-        print('test_hashmap before iteration: ', self.hashmap)
-                
+        #print('test_key_value: ', key, value)
+        #print('test_hashmap before iteration: ', self.hashmap)
+        
         if key in self.hashmap:
-            print('test_map', self.hashmap)
+            self._remove(self.hashmap[key])
+            #print('test_map', self.hashmap)
             node = DoubleNode(key, value)
-            self._remove(self.hashmap[key]) #delete value
-            print('node:', node)
-            self._insert(node) # add to head of linked list
-            print('from set test_hashmap: ', self.hashmap)
-            
-
-            
+            #print('node:', node)
+            self._insert(node)
+            self.hashmap[key] = node
+            #print('from set test_hashmap: ', self.hashmap)
             """
-            else set new node to key, value and insert into hashmap
             if hashmap exceeds capacity remove LRU node aka oldest item
             we keep the head and tail as pointers so the LRU is the tail
             while head is MRU most recently used 
             also, evict the node from doubly linked list and from hashmap as well
 
-           """
-        else:
-            node = DoubleNode(key, value)
+            """
+        else: 
+            node = DoubleNode(key, value) 
             self.hashmap[key] = node
-
+            #print('key_not_in_hashmap: ', node)
+        
             if len(self.hashmap) > self.capacity:
                 node = self.head.next # or is it --> self.tail? 
-                print('len > cap_node:', node)
+                #print('len > cap_node:', node)
                 self._remove(node)
                 del self.hashmap[node.key]
             """
@@ -98,7 +95,7 @@ class LRU_Cache:
 
             """     
                 
-    def _remove(self, node):
+    def _remove(self, node): # cite: 1
         """
         remove()/insert() handle our doubly linked list functions:
         declare prev and next from our node we need to remove
@@ -106,13 +103,20 @@ class LRU_Cache:
         then connect these together "over" our node 
         2. prev.next = next, next.prev = prev
         """
-        print('_remove_node:', node)
-        previous = node.previous
-        next = node.next
-        previous.next = next
-        next.previous = previous
-    
-    
+        #print('_remove_node:', node)
+        
+        if self.head is None or node is None:
+            return 
+        
+        if self.head == node:
+            self.head = node.next
+            
+        if node.next is not None:
+            node.next.previous = node.previous
+        
+        if node.previous is not None:
+            node.previous.next = node.next
+            
     def _insert(self, node):
         """
         remove()/insert() handle our doubly linked list functions:
@@ -123,29 +127,31 @@ class LRU_Cache:
         finish up with connecting our node to prev and next
         3. node.prev = prev, node.next = self.tail 
         """    
-        print('_insert_node:', node)
-        previous = self.tail.previous
-        previous.next = node
-        self.tail.previous = node
+        #print('_insert_node:', node)
+        node.next = self.head
+        node.previous = None
         
-        node.previous = previous
-        node.next = self.tail
-    
-    
+        if self.head is not None:
+            self.head.previous = node
+        self.head = node
+
 our_cache = LRU_Cache(5)
 print('test_cache', our_cache)
 our_cache.set(1, 3)
 our_cache.set(2, 4)    # returns 1
 print('test_cache', our_cache)
-print('test_get', our_cache.get(1)) # # returns 1
+print('test_get', our_cache.get(1)) # returns 1
 print('test_get', our_cache.get(2)) # returns 2
-print('test_get', our_cache.get(3))  # return -1
+print('test_get', our_cache.get(3)) # return -1
 our_cache.set(3, 5)
 print('test_cache', our_cache)
-print('test_get', our_cache.get(2))
+print('test_get', our_cache.get(2)) # returns 4
 our_cache.set(4, 5)
 print('test_cache', our_cache)
-print('test_get', our_cache.get(1))
-print('test_get', our_cache.get(3))
-our_cache.set(3, 5)
-print('test_cache', our_cache)
+print('test_get', our_cache.get(1)) # returns 3
+print('test_get', our_cache.get(3)) # returns 5
+our_cache.set(3, 6)
+print('test_cache', our_cache) 
+
+# citations: 
+# 1. https://www.geeksforgeeks.org/delete-a-node-in-a-doubly-linked-list/ 
