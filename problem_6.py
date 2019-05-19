@@ -19,9 +19,7 @@ class LinkedList:
             cur_head = cur_head.next
         return out_string
 
-
     def append(self, value):
-
         if self.head is None:
             self.head = Node(value)
             return
@@ -40,71 +38,75 @@ class LinkedList:
             node = node.next
 
         return size
-    
-    def union(llist_1, llist_2):
-        union_set = set()
+
+    def prepend(self, value):
+        if self.head is None: 
+            self.head = Node(value)
+            return
+        
+        current = Node(value)   
+        current.next = self.head   
+        self.head = current
+        return
+
+    def union(self, llist_1, llist_2):
+        union_set = LinkedList()
                 
-        if self.head in llist_1 is None:
-            self.head = Node()
-        else:
-            head_1 = self.head
+        head_1 = Node(llist_1)
+        head_2 = Node(llist_2)
         
-        if self.head in llist_2 is None:
-            self.head = Node()
-        else:
-            head_2 = self.head
-        
-        while head_1 is not None:
-            head_1 = head_1.next
-            pass
-        while head_2 is not None:
+        while head_1.next is not None: 
+            union_set.append(head_1.value)   
+            head_1 = head_1.next        
+
+        while head_2.next is not None:
+            union_set.append(head_2.value)
             head_2 = head_2.next
-            pass
-        
-    def intersection(llist_1, llist_2):
-        
+
+        return union_set
+   
+    def intersection(self, llist_1, llist_2):
         intersection = LinkedList()  #  A ∩ B 
         
-        if self.head in llist_1 is None:
-            self.head = Node()
-        else: 
-            head_1 = self.head
+        head_1 = Node(llist_1)
+        head_2 = Node(llist_2)
         
-        if self.head in llist_2 is None:
-            self.head = Node()
-        head_2 = self.head      
-
-        while head_1 is not None: 
-            pass
+        while head_1.next is not None and head_2.next is not None:
+            if head_1.value == head_2.value:
+                intersection.append(head_1.value)   
             
-# Test case 1
-linked_list_1 = LinkedList()
-linked_list_2 = LinkedList()
+            head_1 = head_1.next 
+            head_2 = head_2.next
+            
+        return intersection
 
+# Test case 1
+llist_1 = LinkedList()
+llist_2 = LinkedList()
 element_1 = [3,2,4,35,6,65,6,4,3,21]
 element_2 = [6,32,4,9,6,1,11,21,1]
 
 for i in element_1:
-    linked_list_1.append(i)
+    llist_1.append(i)
 
 for i in element_2:
-    linked_list_2.append(i)
+    llist_2.append(i)
 
-print (union(linked_list_1,linked_list_2))
-print (intersection(linked_list_1,linked_list_2))
+print('union', llist_1.union(llist_1,llist_2))
+print('inter', llist_1.intersection(llist_1,llist_2))
 
 # Test case 2
-linked_list_3 = LinkedList()
-linked_list_4 = LinkedList()
+llist_3 = LinkedList()
+llist_4 = LinkedList()
 
 element_1 = [3,2,4,35,6,65,6,4,3,23]
 element_2 = [1,7,8,9,11,21,1]
 
 for i in element_1:
-    linked_list_3.append(i)
+    llist_3.append(i)
 
 for i in element_2:
-    linked_list_4.append(i)
+    llist_4.append(i)
 
-print(union(linked_list_3,linked_list_4))
-print(intersection(linked_list_3,linked_list_4))
+print(llist_3.union(llist_3,llist_4))
+print(llist_4.intersection(llist_3,llist_4))
