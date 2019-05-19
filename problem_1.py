@@ -46,7 +46,7 @@ class LRU_Cache:
             print('get method node: ', node)
             self._remove(node)
             self._insert(node)
-            print('get_node', node.value)
+            print('get_node value: ', node.value)
             return node.value
         
 
@@ -63,35 +63,34 @@ class LRU_Cache:
         """
         print('test_key_value: ', key, value)
         print('test_hashmap before iteration: ', self.hashmap)
-        
-        if key not in self.hashmap:
-            # node = DoubleNode(key, value)
-            node = self.hashmap[key]
-            print('key_not_in_hashmap: ', node)
-        
+                
         if key in self.hashmap:
-            self._remove(self.hashmap[key])
             print('test_map', self.hashmap)
             node = DoubleNode(key, value)
+            self._remove(self.hashmap[key]) #delete value
             print('node:', node)
-            self._insert(node)
-            self.hashmap[key] = node
+            self._insert(node) # add to head of linked list
             print('from set test_hashmap: ', self.hashmap)
             
 
             
             """
+            else set new node to key, value and insert into hashmap
             if hashmap exceeds capacity remove LRU node aka oldest item
             we keep the head and tail as pointers so the LRU is the tail
             while head is MRU most recently used 
             also, evict the node from doubly linked list and from hashmap as well
 
-            """
-        if len(self.hashmap) > self.capacity:
-            node = self.head.next # or is it --> self.tail? 
-            print('len > cap_node:', node)
-            self._remove(node)
-            del self.hashmap[node.key]
+           """
+        else:
+            node = DoubleNode(key, value)
+            self.hashmap[key] = node
+
+            if len(self.hashmap) > self.capacity:
+                node = self.head.next # or is it --> self.tail? 
+                print('len > cap_node:', node)
+                self._remove(node)
+                del self.hashmap[node.key]
             """
             else we set the value if the key is not present in the hashmap
             create a new node and insert it at head of doubly linked list
@@ -108,10 +107,10 @@ class LRU_Cache:
         2. prev.next = next, next.prev = prev
         """
         print('_remove_node:', node)
-        p = node.previous
-        n = node.next
-        p.next = n
-        n.previous = p
+        previous = node.previous
+        next = node.next
+        previous.next = next
+        next.previous = previous
     
     
     def _insert(self, node):
@@ -125,11 +124,11 @@ class LRU_Cache:
         3. node.prev = prev, node.next = self.tail 
         """    
         print('_insert_node:', node)
-        p = self.tail.previous
-        p.next = node
-        self.tail.prev = node
+        previous = self.tail.previous
+        previous.next = node
+        self.tail.previous = node
         
-        node.previous = p
+        node.previous = previous
         node.next = self.tail
     
     
