@@ -23,14 +23,18 @@ class Group(object):
         return self.name
     
     def is_user_in_group(self, user, group):
-
         for category in self.get_groups():
-            if category == group: 
+            if category == group:
                 for name in self.get_users():
-                    if name == user:
+                    if name is None:
+                        return False
+                    if name != user:
+                        continue
+                    elif name == user:
                         return True
-                    return False
-                    
+                    else:
+                        return False
+
 parent = Group("parent")
 child = Group("child")
 sub_child = Group("subchild")
@@ -38,17 +42,26 @@ sub_child = Group("subchild")
 sub_child_user = "Sam"
 sub_child.add_user(sub_child_user)
 
+sub_child_user = "Travis"
+sub_child.add_user(sub_child_user)
+
+sub_child_user = "Uri"
+sub_child.add_user(sub_child_user)
+
 child.add_group(sub_child)
 parent.add_group(child) 
 
-print("sub_child users: ", sub_child.get_users()) 
-print("child users: ", child.get_users())
-print("parent users: ", parent.get_users())
+print("Is Sam in Group Electrical?", parent.is_user_in_group("Sam", "Electrical"))
+print("Is Kevin in Group Petroleum?", child.is_user_in_group("Kevin", "Petroleum"))
+print("Is Nannette in Group Mechanical?", parent.is_user_in_group("Nannette", "Mechanical"))
+print("Is Inna in Group Chemical?", sub_child.is_user_in_group("Inna", "Chemical"))
+print("Is Travis in Group Aerospace?: ", child.is_user_in_group("Travis", "Aerospace"))
+print("get_parent_groups_test: ", parent.get_groups())
 
-print("sub_child groups: ", sub_child.get_groups()) 
-print("child groups: ", child.get_groups())
-print("parent groups: ", parent.get_groups())
+# print("sub_child users: ", sub_child.get_users()) 
+# print("child users: ", child.get_users())
+# print("parent users: ", parent.get_users())
 
-print("def parent Sam: ", parent.is_user_in_group("Sam", "Electrical"))
-print("def child Kevin: ", child.is_user_in_group("Ken", "Petroleum"))
-print("get_parent_groups: ", parent.get_groups())
+# print("sub_child groups: ", sub_child.get_groups()) 
+# print("child groups: ", child.get_groups())
+# print("parent groups: ", parent.get_groups())

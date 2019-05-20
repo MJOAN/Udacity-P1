@@ -32,15 +32,16 @@ Required:
 
 
 
-2. The Huffman Coding algorithm is utilizing a Binary Tree, a Queue, a MinHeap, and a Hashmap. Breaking down this problem into sub problems is really the only way to accomplish the goal here because of the complexity in creating the tree itself and finally retrieving the leafs with ordered paths and thus, encoded data. The time and space complexity is approximated below which I believe was the most efficient given our constraints. 
+2. explanation_2.md
+    The Huffman Coding algorithm is utilizing a Binary Tree, a Queue, a MinHeap, and a Hashmap. Breaking down this problem into sub problems is really the only way to accomplish the goal here because of the complexity in creating the tree itself and finally retrieving the leafs with ordered paths and thus, encoded data. The time and space complexity is approximated below which I believe was the most efficient given our constraints. 
 
-1. Binary Tree - O(1)
-2. Queue - O()
-3. MinHeap - O()
-4. DFS - O()
-5. Encoded
-6. Decoded
-7. result: 
+    1. Binary Tree - O()
+    2. Queue - O()
+    3. MinHeap - O()
+    4. DFS - O()
+    5. Encoded - O()
+    6. Decoded - O()
+    7. result: 
 
     In this algorithm we start with creating our Node and Binary Tree classes since we know these two components are the main vehicles of our program allowing us to iterate and traverse our tree. I learned an important point of including __str__ and __eq__ dunder methods to our Node class so that we could work with operators within our tree values and to be able to print out our objects. I utilized basic helper instance methods like get_left_child() and set_left_child() for more efficiency in other functions. 
 

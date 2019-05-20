@@ -6,7 +6,6 @@ class Node:
     def __repr__(self):
         return str(self.value)
 
-
 class LinkedList:
     def __init__(self):
         self.head = None
@@ -17,9 +16,10 @@ class LinkedList:
         while cur_head:
             out_string += str(cur_head.value) + " -> "
             cur_head = cur_head.next
-        return out_string
-
+        return out_string + "end"
+    
     def append(self, value):
+
         if self.head is None:
             self.head = Node(value)
             return
@@ -30,15 +30,6 @@ class LinkedList:
 
         node.next = Node(value)
 
-    def size(self):
-        size = 0
-        node = self.head
-        while node:
-            size += 1
-            node = node.next
-
-        return size
-
     def prepend(self, value):
         if self.head is None: 
             self.head = Node(value)
@@ -48,37 +39,64 @@ class LinkedList:
         current.next = self.head   
         self.head = current
         return
-
+    
+    def size(self):
+        size = 0
+        node = self.head
+        while node:
+            size += 1
+            node = node.next
+        return size
+    
+    def contains(self, value):
+        node = self.head
+        
+        while node is not None:
+            if node.value == value:
+                return True
+            
+            node = node.next
+        return False
+                
     def union(self, llist_1, llist_2):
         union_set = LinkedList()
-                
-        head_1 = Node(llist_1)
-        head_2 = Node(llist_2)
         
-        while head_1.next is not None: 
+        head_1 = llist_1.head
+        head_2 = llist_2.head
+        #print(str(head_1.value), str(head_2.value))
+        
+        while head_1 is not None: 
             union_set.append(head_1.value)   
+            #print('union_set append: ', str(union_set))
             head_1 = head_1.next        
 
-        while head_2.next is not None:
-            union_set.append(head_2.value)
+        while head_2 is not None:
+            if not union_set.contains(head_2.value):
+                union_set.append(head_2.value)
+            #print('union_set append: ', str(union_set))
             head_2 = head_2.next
 
+        #print('final union', str(union_set))
         return union_set
    
     def intersection(self, llist_1, llist_2):
         intersection = LinkedList()  #  A ∩ B 
         
-        head_1 = Node(llist_1)
-        head_2 = Node(llist_2)
+        head_1 = llist_1.head
+        head_2 = llist_2.head
         
-        while head_1.next is not None and head_2.next is not None:
+        while head_1 is not None and head_2 is not None:
             if head_1.value == head_2.value:
-                intersection.append(head_1.value)   
+                intersection.append(head_1.value) 
+                print('intersection: ', str(intersection))
             
             head_1 = head_1.next 
             head_2 = head_2.next
-            
+        
+        print('final intersection', str(intersection))
         return intersection
+           
+        
 
 # Test case 1
 llist_1 = LinkedList()
@@ -92,8 +110,8 @@ for i in element_1:
 for i in element_2:
     llist_2.append(i)
 
-print('union', llist_1.union(llist_1,llist_2))
-print('inter', llist_1.intersection(llist_1,llist_2))
+print('test union 1: ', llist_1.union(llist_1,llist_2))
+print('test intersection 1: ', llist_1.intersection(llist_1,llist_2))
 
 # Test case 2
 llist_3 = LinkedList()
@@ -108,5 +126,5 @@ for i in element_1:
 for i in element_2:
     llist_4.append(i)
 
-print(llist_3.union(llist_3,llist_4))
-print(llist_4.intersection(llist_3,llist_4))
+print('test union 2: ', llist_3.union(llist_3,llist_4))
+print('test intersection 2:', llist_3.intersection(llist_3,llist_4))
