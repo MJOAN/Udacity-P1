@@ -29,3 +29,11 @@ find_files('.h', '/Users/mariamjoan/Notebooks/testdir')
 # ./testdir/subdir5 a.h
 # ./testdir/subdir1 a.h
 # ./testdir t1.h
+
+
+# Test Case 3
+find_files('.', '/Users/mariamjoan/Notebooks/testdir')
+# ./testdir/subdir3/subsubdir1 b.h
+# ./testdir/subdir5 a.h
+# ./testdir/subdir1 a.h
+# ./testdir t1.h

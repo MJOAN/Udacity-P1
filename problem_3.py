@@ -161,29 +161,28 @@ if __name__ == "__main__":
     print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
     print ("The content of the encoded data is: {}\n".format(decoded_data))
 
-# Test Case 2 
-tree_two = HuffmanBinaryTree()
-a_great_sentence = "I love computer science so much"
+    # Test Case 2 
+    tree_two = HuffmanBinaryTree()
+    a_great_sentence = "I love computer science so much"
 
-tree_two.relevant_frequencies(a_great_sentence)
+    tree_two.relevant_frequencies(a_great_sentence)
 
-print('tree.huff.encoding: ', tree_two.huffman_encoding(a_great_sentence))
-print('tree.huff.decoding: ', tree_two.huffman_decoding(a_great_sentence, tree_two))
+    print('tree.huff.encoding: ', tree_two.huffman_encoding(a_great_sentence))
+    print('tree.huff.decoding: ', tree_two.huffman_decoding(a_great_sentence, tree_two))
 
+    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    print ("The content of the data is: {}\n".format(a_great_sentence))
 
-print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
-print ("The content of the data is: {}\n".format(a_great_sentence))
+    encoded_data = tree_two.huffman_encoding(a_great_sentence)
+    print('encoded_data, tree: ', encoded_data, tree_two)
 
-encoded_data = tree_two.huffman_encoding(a_great_sentence)
-print('encoded_data, tree: ', encoded_data, tree_two)
+    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    print ("The content of the encoded data is: {}\n".format(encoded_data))
 
-print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-print ("The content of the encoded data is: {}\n".format(encoded_data))
+    decoded_data = tree_two.huffman_decoding(encoded_data, tree_two)
 
-decoded_data = tree_two.huffman_decoding(encoded_data, tree_two)
-
-print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-print ("The content of the encoded data is: {}\n".format(decoded_data))
+    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    print ("The content of the encoded data is: {}\n".format(decoded_data))
 
 # Citations: 
 # 1. https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value

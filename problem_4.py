@@ -25,16 +25,11 @@ class Group(object):
     def is_user_in_group(self, user, group):
         for category in self.get_groups():
             if category == group:
-                for name in group.get_users():
-                    if name is None:
-                        return False
-                    
-                    if name != user:
+                for name in self.get_users():
+                    if name == user and user in category:
                         continue
-                    elif name == user:
-                        return True
-                    else:
-                        return False
+                    return True
+            return False
 
 parent = Group("parent")
 child = Group("child")
@@ -71,7 +66,6 @@ print("get_parent_groups_test: ", parent.get_groups())
 
 # Is db_user_1 in Group Electrical? True
 # Is db_user_4 in Group Petroleum? True
-# Is db_user_17 in Group Mechanical? None
+# Is db_user_17 in Group Mechanical? False
 # Is db_user_5 in Group Chemical? True
-# Is db_user_18 in Group Aerospace?:  None
-# get_parent_groups_test:  ['Electrical', 'Mechanical', 'Aerospace', 'Civil', 'Chemical', 'Petroleum', <__main__.Group object at 0x105110710>]
+# Is db_user_18 in Group Aerospace?:  False
