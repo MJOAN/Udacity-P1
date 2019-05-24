@@ -88,21 +88,19 @@ class LinkedList:
         while head_1 is not None and head_2 is not None:
             if head_1.value == head_2.value:
                 intersection.append(head_1.value) 
-                print('intersection: ', str(intersection))
             
             head_1 = head_1.next 
             head_2 = head_2.next
         
-        print('final intersection', str(intersection))
         return intersection
            
         
-
-# Test case 1
+# Test Case 1
 llist_1 = LinkedList()
 llist_2 = LinkedList()
-element_1 = [3,2,4,35,6,65,6,4,3,21]
-element_2 = [6,32,4,9,6,1,11,21,1]
+
+element_1 = [24, 5436, 86, 345, 2, 6, 9, 0]
+element_2 = [24, 56, 87, 0, 42, 543]
 
 for i in element_1:
     llist_1.append(i)
@@ -110,21 +108,37 @@ for i in element_1:
 for i in element_2:
     llist_2.append(i)
 
-print('test union 1: ', llist_1.union(llist_1,llist_2))
-print('test intersection 1: ', llist_1.intersection(llist_1,llist_2))
+print('union one: ', llist_1.union(llist_1,llist_2))
+print('intersection one: ', llist_1.intersection(llist_1,llist_2))
 
-# Test case 2
+# Test Case 2
 llist_3 = LinkedList()
 llist_4 = LinkedList()
 
-element_1 = [3,2,4,35,6,65,6,4,3,23]
-element_2 = [1,7,8,9,11,21,1]
+element_3 = [3, 4, 54, 65, 7, 8, 90, 5]
+element_4 = [65, 43, 23, 54, 7, 89, 4, 3]
 
-for i in element_1:
+for i in element_3:
     llist_3.append(i)
 
-for i in element_2:
+for i in element_4:
     llist_4.append(i)
 
-print('test union 2: ', llist_3.union(llist_3,llist_4))
-print('test intersection 2:', llist_3.intersection(llist_3,llist_4))
+print('union two: ', llist_3.union(llist_3,llist_4))
+print('intersection two:', llist_3.intersection(llist_3,llist_4))
+
+# Test Case 3
+llist_5 = LinkedList()
+llist_6 = LinkedList()
+
+element_5 = [23, 56, 587, 6675, 757, 8, 945, 234]
+element_6 = [65, 42, 757, 4234, 8, 823, 2424]
+
+for i in element_5:
+    llist_5.append(i)
+
+for i in element_6:
+    llist_6.append(i)
+
+print('union three: ', llist_5.union(llist_5,llist_6))
+print('intersection three:', llist_6.intersection(llist_5,llist_6))

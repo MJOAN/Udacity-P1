@@ -50,21 +50,32 @@ class Block:
         return sha.hexdigest()
         
 
-block_chain = LinkedList()
+# Test Case 1
+block_chain_one = LinkedList()
 previous_hash = ""
 
-block1 = Block(timestamp,"01100300400602224f342220040", previous_hash)
-block2 = Block(timestamp,"84939939930020AABBBBBeeiew8", block1.hash)
-block3 = Block(timestamp,"342352543253urtruuewrw34234", block2.hash)
+blocka = Block(timestamp,"01100300400602224f342220040", previous_hash)
+blockb = Block(timestamp,"84939939930020AABBBBBeeiew8", blocka.hash)
+blockc = Block(timestamp,"342352543253urtruuewrw34234", blockb.hash)
 
-# test 1
-block_chain.append(block1) 
-block_chain.append(block2)
-block_chain.append(block3)
-print('block_chain', str(block_chain))
+block_chain_one.append(blocka) 
+block_chain_one.append(blockb)
+block_chain_one.append(blockc)
+print('block_chain_one: ', str(block_chain_one))
 
-# test 2
-# test 3 
+# Test Case 2
+block_chain_two = LinkedList()
+
+blockd = Block(timestamp,"2342525252k-23423423", previous_hash)
+blocke = Block(timestamp,"849399234-f345354ew8", blockd.hash)
+blockf = Block(timestamp,"3423525432-rt9876784", blocke.hash)
+
+block_chain_two.append(blockd) 
+block_chain_two.append(blocke)
+block_chain_two.append(blockf)
+print('block_chain_two: ', str(block_chain_two))
+
+
 # Citations:
 # 1. https://stackoverflow.com/questions/22416626/python-hashtable-linked-lists-how-to-print-a-list-from-the-hashtable-class
 # 2. https://medium.com/@vishnuashok123/building-a-simple-blockchain-using-python-90d27ee50214
