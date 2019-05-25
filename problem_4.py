@@ -22,9 +22,11 @@ class Group(object):
     
     def is_user_in_group(self, user, group):
         for category in self.get_groups():
+            if category != group or category not in self.get_groups():
+                return False
             if category == group:
                 for name in self.get_users():
-                    if name == user and user in category: # here
+                    if name == user:
                         continue
                     return True
                 return False
