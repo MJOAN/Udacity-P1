@@ -1,5 +1,3 @@
-import collections
-
 class DoubleNode: 
     def __init__(self, key=None, value=None):
         self.key = key
@@ -9,7 +7,7 @@ class DoubleNode:
 
 class LRU_Cache:    
     def __init__(self, capacity):
-        self.hashmap = collections.defaultdict()
+        self.hashmap = dict()
         self.capacity = capacity
         self.head = DoubleNode(0,0)
         self.tail = DoubleNode(0,0)
@@ -29,16 +27,19 @@ class LRU_Cache:
     def put(self, key, value):
         if key in self.hashmap:
             self._remove(self.hashmap[key])
-            
-        node = DoubleNode(key, value)
-        self._insert(node)
-        self.hashmap[key] = node
         
+        if key not in self.hashmap:
+            node = DoubleNode(key, value)
+            self._insert(node)
+            self.hashmap[key] = node
+            
         if len(self.hashmap) > self.capacity:
             node = self.head.next 
             self._remove(node)
-            del self.hashmap[node.key] 
-                
+            
+            if node.key is None:
+                del self.hashmap[node.key] 
+                            
     def _remove(self, node): # cite: 1        
         if self.head is None or node is None:
             return 
@@ -59,7 +60,6 @@ class LRU_Cache:
         if self.head is not None:
             self.head.previous = node
         self.head = node
-
 
 
 # Test Case 1 - Normal 

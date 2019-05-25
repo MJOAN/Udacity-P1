@@ -26,8 +26,9 @@ class LinkedList:
 
     def __str__(self):  # cite: 1  
         node = self.head
-        block_chain = [] 
-        while node:
+        block_chain = []
+
+        while node is not None:            
             block_chain.append(str(node.data))
             node = node.next
         return "[" + "<--".join(block_chain) + "]"
@@ -40,17 +41,16 @@ class Block:
         self.hash = self.calc_hash()
         
     def __str__(self):  # cite: 1  
-        return "[" + "timestamp: "  + self.timestamp + "data: " + self.data + "prev_hash: " + self.previous_hash + "hash: " + self.hash + "]"
-              
+        return '{} Data: {} Previous Hash: {} Hash: {}'.format(self.timestamp, self.data, self.previous_hash, self.hash)
+    
     def calc_hash(self):
         sha = hashlib.sha256()
         sha.update(str(self.timestamp).encode('utf-8') +  # cite: 2 
-                      str(self.data).encode('utf-8') +
-                      str(self.previous_hash).encode('utf-8'))   
+                    str(self.data).encode('utf-8') +
+                    str(self.previous_hash).encode('utf-8'))   
         return sha.hexdigest()
         
-
-# Test Case 1
+# Test Case 1 
 block_chain_one = LinkedList()
 previous_hash = ""
 
@@ -74,6 +74,18 @@ block_chain_two.append(blockd)
 block_chain_two.append(blocke)
 block_chain_two.append(blockf)
 print('block_chain_two: ', str(block_chain_two))
+
+# Test Case 3 - None
+block_chain_three = LinkedList()
+
+blockg = Block(timestamp,None, previous_hash)
+blockh = Block(timestamp," ", blockd.hash)
+blocki = Block(timestamp,"e3242342ff10232131", blocke.hash)
+
+block_chain_three.append(blockg) 
+block_chain_three.append(blockh)
+block_chain_three.append(blocki)
+print('block_chain_three: ', str(block_chain_three))
 
 
 # Citations:
