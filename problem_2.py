@@ -7,11 +7,13 @@ def find_files(suffix, path):
     path(str): path of the file system
     Returns: a list of paths
     """
-    root_dir = '.'
-    for root, directories, files in os.walk(root_dir, topdown=False):
+    root = '.'
+    for root, directories, files in os.walk(path, topdown=False):
         for file_name in files:
             if file_name.endswith(suffix):
-                print(os.path.join(root, file_name))
+                print(os.path.join(path, file_name))
+            else:
+                print("No files found")
             
     return None
 
@@ -22,7 +24,6 @@ find_files('.c', '/Users/mariamjoan/Notebooks/testdir')
 # ./testdir/subdir1 a.c
 # ./testdir t1.c
 
-
 # Test Case 2
 find_files('.h', '/Users/mariamjoan/Notebooks/testdir')
 # ./testdir/subdir3/subsubdir1 b.h
@@ -30,10 +31,6 @@ find_files('.h', '/Users/mariamjoan/Notebooks/testdir')
 # ./testdir/subdir1 a.h
 # ./testdir t1.h
 
-
 # Test Case 3
-find_files('.', '/Users/mariamjoan/Notebooks/testdir')
-# ./testdir/subdir3/subsubdir1 b.h
-# ./testdir/subdir5 a.h
-# ./testdir/subdir1 a.h
-# ./testdir t1.h
+find_files('.z', '/Users/mariamjoan/Notebooks/testdir')
+# No files found

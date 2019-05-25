@@ -14,7 +14,8 @@ class HuffmanNode():
         else: 
             return str(self.key)
 
-    def __eq__(self, node):  # enables heappop and heappush methods when not using tuples
+    def __eq__(self, node):  
+        # enables heappop and heappush methods when not using tuples
         if self is node:
             return True
         elif type(self) != type(node):
@@ -22,7 +23,8 @@ class HuffmanNode():
         else:
             return self.value == node.value
 
-    def __lt__(self, node):  # enables to compare "frequencies" with tree nodes
+    def __lt__(self, node):  
+        # enables to compare "frequencies" with tree nodes
         return self.value < node.value
     
     def get_left_child(self):
@@ -46,13 +48,11 @@ class HuffmanBinaryTree(object):
         return self.root
         
     def relevant_frequencies(self, string): 
-        """
-        1. convert string to hashmap with keys as string characters and frequency as values 
-        2. build and sort a list of tuples from lowest to highest frequencies
-        3. convert tuples list to dictionary of key values
-        4. call build tree function with dictionary key values
-        """
         codes = dict()
+        
+        if string is None or string == "" or not string:
+            return '0'
+
         for char in string:
             if char not in codes:
                 codes[char] = 1
@@ -63,21 +63,17 @@ class HuffmanBinaryTree(object):
         return self.build_huffman_tree(codes)
     
     def build_huffman_tree(self, codes):     
-        """
-        1. build huffman by assigning a binary code to each letter using shorter codes for the more frequent letters 
-        2. trim the Huffman Tree (remove the frequencies from the previously built tree)
+        Q = [] 
+        # Q is representing a list of frequencies 
 
-        """
-
-        Q = [] # Q is representing a list of frequencies 
-        
         for key, value in codes.items():  
             # looping until PQ only has one element             
             node = HuffmanNode(key, value)
             heappush(Q, (node))
             #print('node', node)
             
-        while len(Q) != 1:  # while length of list frequencies != 1 
+        while len(Q) != 1:  
+            # while length of list frequencies != 1 
             priority_queue = HuffmanNode()
             priority_queue.left = heappop(Q) 
             priority_queue.right = heappop(Q)
@@ -85,37 +81,28 @@ class HuffmanBinaryTree(object):
             heappush(Q, (priority_queue))  
         
         self.depth_first_search(priority_queue, "")         
-        
-        #print('tree: ', str(priority_queue))
         return priority_queue  # return parent node
 
 
     def depth_first_search(self, node, path):
-        """
-        # use a dfs search for leaf node to a dict mapping char to huffman code/path
-        1. base case checks for child nodes --> for a leaf 
-        2. recursive case checks for the char & then we obtain the path to get there 
-        store that in dictionary as --> node.key
-        """
         if node.get_left_child() is None and node.get_right_child() is None:
             self.huffman_code_map[node.key] = path
-            #print('huffcode_map:', self.huffman_code_map)
         else: 
             self.depth_first_search(node.left, path + "0")
             self.depth_first_search(node.right, path + "1")
 
-
     def huffman_encoding(self, data):    # cite: 4 
-        encoded_data = ""        
+        encoded_data = ""
+        if data is None or data == "" or not data:
+            return '0'  
+
         for char in data:     
             encoded_data += self.huffman_code_map[char]  
         return encoded_data
 
     def huffman_decoding(self, encoded_data, tree):    # cite: 4 
         decoded_data = ""
-        print('tree', tree)
-        root = tree
-        node = root
+        node = root = tree
         
         for i, v in enumerate(encoded_data): 
             #print('node_decoding, i:', i) 
@@ -137,29 +124,24 @@ class HuffmanBinaryTree(object):
         
 if __name__ == "__main__": 
 
-# Test Case 1
+    # Test Case 1
     tree_one = HuffmanBinaryTree()
     a_great_sentence = "Happy days are ahead not to mention presently"
 
     tree_one.relevant_frequencies(a_great_sentence)
 
-    print('tree.huff.encoding: ', tree_one.huffman_encoding(a_great_sentence))
-    print('tree.huff.decoding: ', tree_one.huffman_decoding(a_great_sentence, tree_one))
+    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence))) # 94
+    print ("The content of the data is: {}\n".format(a_great_sentence)) # Happy days are ahead not to mention presently
 
+    encoded_data = tree_one.huffman_encoding(a_great_sentence) 
 
-    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
-    print ("The content of the data is: {}\n".format(a_great_sentence))
-
-    encoded_data = tree_one.huffman_encoding(a_great_sentence)
-    print('encoded_data, tree: ', encoded_data, tree_one)
-
-    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-    print ("The content of the encoded data is: {}\n".format(encoded_data))
+    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2)))) # 48
+    print ("The content of the encoded data is: {}\n".format(encoded_data)) # 00110011101010101000110100110111000111101100110010010110011111111010011100111101110101100011000010111100011101011100001111101011111011010100010010111100101110000100101000
 
     decoded_data = tree_one.huffman_decoding(encoded_data, tree_one)
 
-    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-    print ("The content of the encoded data is: {}\n".format(decoded_data))
+    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data))) # 220
+    print ("The content of the encoded data is: {}\n".format(decoded_data)) # 00110011101010101000110100110111000111101100110010010110011111111010011100111101110101100011000010111100011101011100001111101011111011010100010010111100101110000100101000
 
     # Test Case 2 
     tree_two = HuffmanBinaryTree()
@@ -167,22 +149,37 @@ if __name__ == "__main__":
 
     tree_two.relevant_frequencies(a_great_sentence)
 
-    print('tree.huff.encoding: ', tree_two.huffman_encoding(a_great_sentence))
-    print('tree.huff.decoding: ', tree_two.huffman_decoding(a_great_sentence, tree_two))
-
-    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
-    print ("The content of the data is: {}\n".format(a_great_sentence))
+    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence))) # 80
+    print ("The content of the data is: {}\n".format(a_great_sentence)) # I love computer science so much
 
     encoded_data = tree_two.huffman_encoding(a_great_sentence)
-    print('encoded_data, tree: ', encoded_data, tree_two)
 
-    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-    print ("The content of the encoded data is: {}\n".format(encoded_data))
+    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2)))) # 40
+    print ("The content of the encoded data is: {}\n".format(encoded_data)) # 00010111000110010111110011111000101101011101011011010001110111010011010100100101011101001110100001111011001011100000
 
     decoded_data = tree_two.huffman_decoding(encoded_data, tree_two)
 
-    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-    print ("The content of the encoded data is: {}\n".format(decoded_data))
+    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data))) # 166
+    print ("The content of the encoded data is: {}\n".format(decoded_data)) # 00010111000110010111110011111000101101011101011011010001110111010011010100100101011101001110100001111011001011100000
+
+    # Test Case 3 - Empty 
+    tree_three = HuffmanBinaryTree()
+    a_great_sentence = ""
+
+    tree_three.relevant_frequencies(a_great_sentence)
+
+    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence))) # 49
+    print ("The content of the data is: {}\n".format(a_great_sentence)) # empty
+
+    encoded_data = tree_three.huffman_encoding(a_great_sentence) 
+
+    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2)))) # 24
+    print ("The content of the encoded data is: {}\n".format(encoded_data)) # 0
+
+    decoded_data = tree_three.huffman_decoding(encoded_data, tree_three)
+
+    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data))) # 51
+    print ("The content of the encoded data is: {}\n".format(decoded_data)) # 0
 
 # Citations: 
 # 1. https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value

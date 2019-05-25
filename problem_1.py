@@ -10,7 +10,7 @@ class DoubleNode:
 class LRU_Cache:    
     def __init__(self, capacity):
         self.hashmap = collections.defaultdict()
-        self.capacity = 5
+        self.capacity = capacity
         self.head = DoubleNode(0,0)
         self.tail = DoubleNode(0,0)
         self.head.next = self.tail
@@ -26,20 +26,18 @@ class LRU_Cache:
             self._insert(node)
             return node.value
         
-    def set(self, key, value):
+    def put(self, key, value):
         if key in self.hashmap:
             self._remove(self.hashmap[key])
-            node = DoubleNode(key, value)
-            self._insert(node)
-            self.hashmap[key] = node
-        else: 
-            node = DoubleNode(key, value) 
-            self.hashmap[key] = node
+            
+        node = DoubleNode(key, value)
+        self._insert(node)
+        self.hashmap[key] = node
         
-            if len(self.hashmap) > self.capacity:
-                node = self.head.next 
-                self._remove(node)
-                del self.hashmap[node.key] 
+        if len(self.hashmap) > self.capacity:
+            node = self.head.next 
+            self._remove(node)
+            del self.hashmap[node.key] 
                 
     def _remove(self, node): # cite: 1        
         if self.head is None or node is None:
@@ -64,29 +62,49 @@ class LRU_Cache:
 
 
 
-# Test Case 1
-our_cache = LRU_Cache(5)
-print('test_cache', our_cache)
-our_cache.set(1, 3)
-our_cache.set(2, 4)   
-print('test_1_cache', our_cache)
-print('test_1_get', our_cache.get(1)) # returns 1
-print('test_1_get', our_cache.get(2)) # returns 2
-print('test_1_get', our_cache.get(3)) # return -1
+# Test Case 1 - Normal 
+cache_one = LRU_Cache(5)
+cache_one.put(1, 3)
+cache_one.put(2, 4)   
+print('test_1_get1', cache_one.get(1)) # returns 3
+print('test_1_get2', cache_one.get(2)) # returns 4
+print('test_1_get3', cache_one.get(3)) # return -1
+cache_one.put(3, 5)
+print('test_1_get2', cache_one.get(2)) # returns 4
+cache_one.put(4, 5)
+print('test_1_get1', cache_one.get(1)) # returns 3
+print('test_1_get3', cache_one.get(3)) # returns 5
+cache_one.put(3, 6)
+print('test_1_get3', cache_one.get(3)) # returns 6
 
-# Test Case 2
-our_cache.set(3, 5)
-print('test_2_cache', our_cache)
-print('test_2_get', our_cache.get(2)) # returns 4
-our_cache.set(4, 5)
-print('test_2_cache', our_cache)
+# Test Case 2 - Empty 
+cache_two = LRU_Cache(0)
+cache_two.put(1, 3)
+cache_two.put(2, 4)  
+cache_two.put(3, 5)  
+print('test_2_get1', cache_two.get(1)) # returns 3
+print('test_2_get2', cache_two.get(2)) # returns 4
+print('test_2_get3', cache_two.get(3)) # return 5
+cache_two.put(3, 5)
+print('test_2_get2', cache_two.get(2)) # returns 4
+cache_two.put(4, 5)
+print('test_2_get1', cache_two.get(1)) # returns 3
+print('test_2_get3', cache_two.get(3)) # returns 5
+cache_two.put(3, 6)
+print('test_2_get3', cache_two.get(3)) # returns 5
 
-# Test Case 3
-print('test_3_cache', our_cache)
-print('test_3_get', our_cache.get(1)) # returns 3
-print('test_3_get', our_cache.get(3)) # returns 5
-our_cache.set(3, 6)
-print('test_3_cache', our_cache) 
+# Test Case 3 - Overflow 
+cache_three = LRU_Cache(3)
+cache_three.put(1, 3)
+cache_three.put(2, 4)
+print('test_3_get1', cache_three.get(1)) # returns 3
+print('test_3_get2', cache_three.get(2)) # returns 4
+print('test_3_get3', cache_three.get(3)) # returns -1
+print('test_3_get3', cache_three.get(1)) # returns 3
+print('test_3_get3', cache_three.get(2)) # returns 4
+print('test_3_get3', cache_three.get(3)) # returns -1
+print('test_3_get3', cache_three.get(1)) # returns 3
+
 
 # citations: 
 # 1. https://www.geeksforgeeks.org/delete-a-node-in-a-doubly-linked-list/ 
